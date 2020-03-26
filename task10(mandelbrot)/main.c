@@ -8,7 +8,7 @@ int main()
 {
 
     int resolution = 1000;
-    float maxIterations = 50.0;
+    float maxIterations = 100.0;
     FILE *output; // A pointer variable of type FILE*
     output = fopen("image.ppm", "w"); // To open the file image.ppm
     fprintf(output, "P3\n%d %d\n255", resolution, resolution);
@@ -55,7 +55,7 @@ int main()
 
 void HSLtoRGB(float *hsl, int *rgb) {
     float C = hsl[1] * hsl[2];
-    float X = C * (1 - abs(fmod(hsl[0] / 60.0, 2) - 1));
+    float X = C * (1 - fabs(fmod(hsl[0] / 60.0, 2) - 1));
     float m = hsl[2] - C;
     float rgb1[3] = {0};
 

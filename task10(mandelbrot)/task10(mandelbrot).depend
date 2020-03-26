@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1585187918 source:d:\documents\code\c\week 5\task10(mandelbrot)\main.c
+1585202697 source:d:\documents\code\c\week 5\task10(mandelbrot)\main.c
 	<stdio.h>
 	<stdlib.h>
 	<math.h>
