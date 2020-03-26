@@ -7,7 +7,8 @@ void HSLtoRGB(float *hsl, int *rgb);
 int main()
 {
 
-    int resolution = 4000;
+    int resolution = 1000;
+    float maxIterations = 50.0;
     FILE *output; // A pointer variable of type FILE*
     output = fopen("image.ppm", "w"); // To open the file image.ppm
     fprintf(output, "P3\n%d %d\n255", resolution, resolution);
@@ -29,7 +30,7 @@ int main()
             x += (float)3/(float)resolution;
             x1 = 0; y1 = 0; xtemp = 0;
             iterations = 0;
-            while((x1*x1 + y1*y1 < 4) && iterations < 1000) {
+            while((x1*x1 + y1*y1 < 4) && iterations < maxIterations) {
                 xtemp = x1*x1 - y1*y1 + x;
                 y1 = 2*x1*y1 + y;
                 x1 = xtemp;
@@ -37,7 +38,7 @@ int main()
             }
             //=======
             //Printing
-            coloursHSL[0] = 360 * (iterations/1000);
+            coloursHSL[0] = 360 * ((float)iterations/maxIterations);
             HSLtoRGB(coloursHSL, coloursRGB);
             fprintf(output, "\n%d %d %d", coloursRGB[0], coloursRGB[1], coloursRGB[2]);
             //=========
@@ -58,11 +59,7 @@ void HSLtoRGB(float *hsl, int *rgb) {
     float m = hsl[2] - C;
     float rgb1[3] = {0};
 
-    if (hsl[0] == 0) {
-        rgb1[0] = 0;
-        rgb1[1] = 0;
-        rgb1[2] = 0;
-    } else if (hsl[0] < 60) {
+    if (hsl[0] < 60) {
         rgb1[0] = C;
         rgb1[1] = X;
         rgb1[2] = 0;
@@ -82,10 +79,14 @@ void HSLtoRGB(float *hsl, int *rgb) {
         rgb1[0] = X;
         rgb1[1] = 0;
         rgb1[2] = C;
-    } else {
+    } else if (hsl[0] < 360) {
         rgb1[0] = C;
         rgb1[1] = 0;
         rgb1[2] = X;
+    } else {
+        rgb1[0] = 0;
+        rgb1[1] = 0;
+        rgb1[2] = 0;
     }
 
     rgb[0] = (rgb1[0] + m)*255;
